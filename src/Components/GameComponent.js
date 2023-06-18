@@ -40,7 +40,7 @@ const GameComponent = () => {
         {`
         h2 {
           text-align: center;
-          background-color: #11143F;
+          background-color: rgb(8 3 33 );
           padding: 6px;
           color: white;
         }
@@ -92,25 +92,30 @@ const GameComponent = () => {
           height: 80px;
           width: 80px;
           font-size: 70px;
+          display:flex;
           color: white;
           margin: auto;
           border: none;
-          background-color:black;
+          align-items: center;
+          justify-content: center;
+          align-content:center;
+          border-radius:10%;
+          background-color:rgb(19 27 77);
         }
       `}
       </style>
-      <h2>ऐLan</h2>
-      <div className="out">{renderBoardBoxes()}</div>
-      <div className="mn"></div>
-      <div id="side">
-        <button className="btn" id="Play" onClick={play}>
-          New game
-        </button>
-        <br />
-        <center>
-          <button id="dice" onClick={random}></button>
-        </center>
-      </div>
+      <div style={{ textAlign: "center" }}>     
+       <div className="out">{renderBoardBoxes()}</div>
+       </div>
+       <div className="mn"></div>
+      <br></br>
+      <br />
+      <br></br>
+      <center>
+        <br></br><br></br><br></br>
+        <button id="dice" onClick={random}><h4>Press Here</h4></button>
+      </center>
+
     </div>
   );
 };

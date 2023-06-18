@@ -13,8 +13,12 @@
   }
 }
 
+.navbar{
+  background-color: rgb(19 27 77 / 0.95);
+  padding-left: 2%;
+}
 .App-header {
-  background-color: #282c34;
+  background-color: rgb(8 3 33 );
   min-height: 100vh;
   display: flex;
   flex-direction: column;

@@ -9,8 +9,8 @@ function App() {
   return (
     <div className="App">
     <Navbar/>
-    <GameComponent/>
     <Information/>
+    <GameComponent/>
     <Directions/>
     </div>
   );
