@@ -55,11 +55,11 @@ function Home() {
 
   return (
     <div>
-      <Navbar name={teamData?.name ?? ""}/>
+      <Navbar name={teamData?.teamName ?? ""}/>
       <Information message={message} />
       <GameComponent />
       <Directions />
-      <Team teammates = {teamData?.teamMembers ?? ""}/>
+      <Team teammates = {teamData?.teamMembers ?? ""} id = {teamData?.teamId}/>
     </div>
   );
 }
