@@ -1,22 +1,37 @@
 import React, { useState } from 'react';
+import { auth, db } from '../services/firebase';
+import { doc, updateDoc } from 'firebase/firestore';
 
-const GameComponent = ({onUpdateState}) => {
-  const [number, setNumber] = useState(1);
+const GameComponent = ({onUpdateState, pos}) => {
+  const [number, setNumber] = useState(pos);
 
   const play = () => {
     setNumber(1);
   };
 
-  const random = () => {
+
+  const random = async () => {
     const diceValues = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
     const diceRoll = Math.ceil(Math.random() * 6);
 
     const newNumber = number + diceRoll <= 100 ? number + diceRoll : number;
 
-    setNumber(newNumber);
-    onUpdateState(newNumber); 
-    document.getElementById('dice').innerHTML = diceValues[diceRoll];
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const userDocRef = doc(db, 'users', user.email);
+        await updateDoc(userDocRef, { currentPosition: newNumber });
+        console.log('Position updated in Firestore');
+        setNumber(newNumber);
+        onUpdateState(newNumber); 
+        document.getElementById('dice').innerHTML = diceValues[diceRoll];
+    
+      }
+    } catch (error) {
+      console.error('Error updating position:', error);
+    }
   };
+
 
   const renderBoardBoxes = () => {
     const boardBoxes = [];

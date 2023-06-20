@@ -5,7 +5,7 @@ export class TeamData {
       this.teamName = teamName ?? "NA";
       this.teamId = teamId ?? "NA";
       this.teamMembers = teamMembers ?? [];
-      this.currentPosition = currentPosition ?? 0;
+      this.currentPosition = currentPosition ?? 1;
     }
   
     toString() {
@@ -22,7 +22,7 @@ export class TeamData {
         teamName: teamData.teamName ?? "NA",
         teamId: teamData.teamId ?? "NA",
         teamMembers: teamData.teamMembers ?? [],
-        currentPosition: teamData.currentPosition ?? 0,
+        currentPosition: teamData.currentPosition ?? 1,
       };
     },
     fromFirestore: (snapshot, options) => {
@@ -33,7 +33,7 @@ export class TeamData {
         teamName: data.teamName ?? "NA",
         teamId: data.teamId ?? "NA",
         teamMembers: data.teamMembers ?? [],
-        currentPosition: data.currentPosition ?? 0,
+        currentPosition: data.currentPosition ?? 1,
       });
       return team;
     },

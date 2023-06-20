@@ -4,11 +4,11 @@ import loginDisplay from "../../assets/sb.png"
 
 import googleIconBlack from "../../assets/google-icon-black.svg"
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, db, provider } from '../../services/firebase'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
-import { Student, TeamData, studentConverter, teamDataConverter } from '../../models/UserModel'
+import { doc, getDoc } from 'firebase/firestore'
+import { teamDataConverter } from '../../models/UserModel'
 
 function Login() {
   const navigate = useNavigate();
@@ -60,14 +60,12 @@ function Login() {
         const currentUser = result.user;
         const docRef = doc(db, "users", currentUser.email).withConverter(teamDataConverter);
         const docSnap = await getDoc(docRef);
-
+        const data = docSnap.data();
         if (!docSnap.exists()) {
           alert("Please use team leader's email to login")
         }
         else{
-          const data = docSnap.data();
-          localStorage.setItem('teamData', JSON.stringify(data)); // Store teamData in localStorage
-          // console.log(data.name);
+
           navigate('/')
           
         }
