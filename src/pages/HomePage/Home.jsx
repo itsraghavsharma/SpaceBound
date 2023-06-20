@@ -7,6 +7,8 @@ import Directions from '../../Components/Directions';
 import { auth, db, provider } from '../../services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import {TeamData, teamDataConverter } from '../../models/UserModel';
+import Team from '../../Components/team';
+
 
 function Home() {
   const [message, setMessage] = useState('Loading...');
@@ -19,26 +21,21 @@ function Home() {
         console.log(storedTeamData);
       const parsedTeamData = JSON.parse(storedTeamData);
       setTeamData(parsedTeamData);
-      localStorage.removeItem('teamData'); // Remove the stored teamData from localStorage after retrieval
+    //   localStorage.removeItem('teamData'); // Remove the stored teamData from localStorage after retrieval
     } 
-    // else {
-    //   // If teamData is not found in localStorage, redirect back to the login page
-    //   navigate('/login');
-    // }
-
 
     const fetchMessage = async () => {
-        console.log("In functiion");
+       
       try {
         const user = auth.currentUser;
         console.log(auth.currentUser);
         if (user) {
-            console.log("User exist");
+        
           const docRef = doc(db, 'users', user.email);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-            console.log("Data exist");
+           
             const userData = docSnap.data();
             const messageFromFirestore = userData.message;
             console.log(messageFromFirestore);
@@ -62,6 +59,7 @@ function Home() {
       <Information message={message} />
       <GameComponent />
       <Directions />
+      <Team teammates = {teamData?.teamMembers ?? ""}/>
     </div>
   );
 }
