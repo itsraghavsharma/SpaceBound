@@ -13,6 +13,11 @@ import Team from '../../Components/team';
 function Home() {
   const [message, setMessage] = useState('Loading...');
   const [teamData, setTeamData] = useState(null);
+  const [gamePosition, setGamePosition] = useState('');
+
+  const updateGamePosition = (newState) => {
+    setGamePosition(newState);
+  };
 
   useEffect(() => {
     const storedTeamData = localStorage.getItem('teamData');
@@ -56,8 +61,8 @@ function Home() {
   return (
     <div>
       <Navbar name={teamData?.teamName ?? ""}/>
-      <Information message={message} />
-      <GameComponent />
+      <Information message={gamePosition} />
+      <GameComponent onUpdateState={updateGamePosition} />
       <Directions />
       <Team teammates = {teamData?.teamMembers ?? ""} id = {teamData?.teamId}/>
     </div>

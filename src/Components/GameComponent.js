@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const GameComponent = () => {
+const GameComponent = ({onUpdateState}) => {
   const [number, setNumber] = useState(1);
 
   const play = () => {
@@ -14,6 +14,7 @@ const GameComponent = () => {
     const newNumber = number + diceRoll <= 100 ? number + diceRoll : number;
 
     setNumber(newNumber);
+    onUpdateState(newNumber); 
     document.getElementById('dice').innerHTML = diceValues[diceRoll];
   };
 
