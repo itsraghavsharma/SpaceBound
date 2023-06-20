@@ -5,7 +5,7 @@ import GameComponent from '../../Components/GameComponent';
 import Directions from '../../Components/Directions';
 
 import { auth, db } from '../../services/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc , updateDoc} from 'firebase/firestore';
 import Team from '../../Components/team';
 import { taskDataConverter } from '../../models/TasksModel';
 import { teamDataConverter } from '../../models/UserModel';
@@ -61,11 +61,33 @@ function Home() {
             setCurrentTask(docSnap.data());
             console.log(docSnap.data());
             setMessage(docSnap.data().message);
+            if(docSnap.data().position != 0)
+            {
+              try {
+                const user = auth.currentUser;
+                if (user) {
+                  const userDocRef = doc(db, 'users', user.email);
+                  const newPos = parseInt(gamePosition) + docSnap.data().position;
+                  setGamePosition(newPos);
+                  setPos(newPos);
+                  alert("You are shifted " + docSnap.data().position + " steps to " + newPos + "\n\nMessage :" + docSnap.data().message);
+                  await updateDoc(userDocRef, { currentPosition: newPos });
+                  console.log('Position updated in Firestore');
+                }
+              
+              
+                } catch (error) {
+                console.error('Error updating position:', error);
+              }
+            };
+             
+            }
+            
           } else {
             setMessage('Failed');
           }
         }
-      } catch (error) {
+       catch (error) {
         console.error('Error fetching message:', error);
       }
     };
