@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 
@@ -8,6 +8,9 @@ const GameComponent = ({onUpdateState, pos}) => {
   const play = () => {
     setNumber(1);
   };
+  useEffect(() => {
+    setNumber(pos);
+  }, [pos]);
 
 
   const random = async () => {
