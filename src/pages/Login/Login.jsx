@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth, db, provider } from '../../services/firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
-import { Student, studentConverter } from '../../models/UserModel'
+import { Student, TeamData, studentConverter, teamDataConverter } from '../../models/UserModel'
 
 function Login() {
   const navigate = useNavigate();
@@ -20,16 +20,16 @@ function Login() {
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const uid = user.uid;
-        const docRef = doc(db, "users", uid).withConverter(studentConverter);
+        const email = user.email;
+        const docRef = doc(db, "users", email).withConverter(teamDataConverter);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           var userData = docSnap.data();
-          if (userData.state !== 'NA') {
-            navigate('/library');
-          }else{
-            navigate('/accountsetup');
-          }
+          // if (userData !== 'NA') {
+          //   navigate('/library');
+          // }else{
+          //   navigate('/accountsetup');
+          // }
         }
       } 
     })
@@ -58,20 +58,24 @@ function Login() {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const currentUser = result.user;
-        const docRef = doc(db, "users", currentUser.uid).withConverter(studentConverter);
+        const docRef = doc(db, "users", currentUser.email).withConverter(teamDataConverter);
         const docSnap = await getDoc(docRef);
 
         if (!docSnap.exists()) {
-          const user = new Student({ id: currentUser.uid, fname: currentUser.displayName.split(" ")[0], lname: currentUser.displayName.split(" ").slice(1).join(" "), email: currentUser.email, phone: currentUser.phoneNumber, })
-          await setDoc(docRef, user);
+          alert("Please use team leader's email to login")
         }
-        navigate('/accountsetup');
+        else{
+          const data = docSnap.data();
+          localStorage.setItem('teamData', JSON.stringify(data)); // Store teamData in localStorage
+          // console.log(data.name);
+          navigate('/')
+          
+        }
+
       }).catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+      
+
         alert(errorMessage)
 
       });
