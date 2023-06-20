@@ -6,14 +6,15 @@ import Directions from '../../Components/Directions';
 
 import { auth, db, provider } from '../../services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
-import {TeamData, teamDataConverter } from '../../models/UserModel';
 import Team from '../../Components/team';
+import { taskDataConverter } from '../../models/TasksModel';
 
 
 function Home() {
   const [message, setMessage] = useState('Loading...');
   const [teamData, setTeamData] = useState(null);
-  const [gamePosition, setGamePosition] = useState('');
+  const [currentTast, setCurrentTast] = useState(null);
+  const [gamePosition, setGamePosition] = useState('1');
 
   const updateGamePosition = (newState) => {
     setGamePosition(newState);
@@ -22,8 +23,8 @@ function Home() {
   useEffect(() => {
     const storedTeamData = localStorage.getItem('teamData');
     if (storedTeamData) {
-        console.log("storedTeamData");
-        console.log(storedTeamData);
+
+        // console.log(storedTeamData);
       const parsedTeamData = JSON.parse(storedTeamData);
       setTeamData(parsedTeamData);
     //   localStorage.removeItem('teamData'); // Remove the stored teamData from localStorage after retrieval
@@ -33,18 +34,16 @@ function Home() {
        
       try {
         const user = auth.currentUser;
-        console.log(auth.currentUser);
         if (user) {
-        
-          const docRef = doc(db, 'users', user.email);
+
+          const docRef = doc(db, 'tasks', gamePosition.toString()).withConverter(taskDataConverter);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-           
-            const userData = docSnap.data();
-            const messageFromFirestore = userData.message;
-            console.log(messageFromFirestore);
-            setMessage(messageFromFirestore);
+
+            setCurrentTast(docSnap.data());
+            console.log(docSnap.data());
+            setMessage(docSnap.data().message);
           } else {
             setMessage('Failed');
           }
@@ -55,13 +54,13 @@ function Home() {
     };
 
     fetchMessage();
-  }, []);
+  }, [gamePosition]);
 
 
   return (
     <div>
       <Navbar name={teamData?.teamName ?? ""}/>
-      <Information message={gamePosition} />
+      <Information message={message} />
       <GameComponent onUpdateState={updateGamePosition} />
       <Directions />
       <Team teammates = {teamData?.teamMembers ?? ""} id = {teamData?.teamId}/>
