@@ -5,7 +5,7 @@ import GameComponent from '../../Components/GameComponent';
 import Directions from '../../Components/Directions';
 
 import { auth, db } from '../../services/firebase';
-import { doc, getDoc , updateDoc} from 'firebase/firestore';
+import { addDoc, doc, getDoc , updateDoc} from 'firebase/firestore';
 import Team from '../../Components/team';
 import { taskDataConverter } from '../../models/TasksModel';
 import { teamDataConverter } from '../../models/UserModel';
@@ -22,6 +22,7 @@ function Home() {
 
   const updateGamePosition = (newState) => {
     setGamePosition(newState);
+    
   };
 
   useEffect(() => {
@@ -72,6 +73,15 @@ function Home() {
                   setPos(newPos);
                   alert("You are shifted " + docSnap.data().position + " steps to " + newPos + "\n\nMessage :" + docSnap.data().message);
                   await updateDoc(userDocRef, { currentPosition: newPos });
+                  const timestamp = Date.now();
+                  const formattedDate = new Date(timestamp).toLocaleString();
+                  
+                  console.log("Date is " + formattedDate);
+                  const data = {};
+                  data[gamePosition] = formattedDate;
+                  
+                  await updateDoc(userDocRef, data);
+
                   console.log('Position updated in Firestore');
                 }
               
