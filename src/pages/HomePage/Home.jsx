@@ -10,6 +10,7 @@ import Team from '../../Components/team';
 import { taskDataConverter } from '../../models/TasksModel';
 import { teamDataConverter } from '../../models/UserModel';
 import { useNavigate } from 'react-router-dom';
+import Body from '../../Components/Body';
 
 
 function Home() {
@@ -107,12 +108,7 @@ function Home() {
 
   return (
     <div>
-      <Navbar name={teamData?.teamName ?? ""} />
-      <Information message={message} />
-      {((pos!=0 || pos != null)) ?
-      <GameComponent onUpdateState={updateGamePosition} pos={pos} /> : null}
-      <Directions />
-      <Team teammates={teamData?.teamMembers ?? ""} id={teamData?.teamId} />
+      <Body name={teamData?.teamName ?? ""} message={message} onUpdateState={updateGamePosition} pos={pos} teammates={teamData?.teamMembers ?? ""} id={teamData?.teamId} />
     </div>
   );
 }
