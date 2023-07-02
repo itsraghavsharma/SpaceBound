@@ -19,7 +19,7 @@ const GameComponent = ({onUpdateState, pos}) => {
 
 
   const unlockButton = () =>{
-    var inpCode = prompt("Enter Volunteer Only Code : ")
+    var inpCode = prompt("Enter Volunteer Only Code : ", "")
      if (inpCode === "SBVgame2023"){
       setDiceDisabled(false);
       setVerifyButtonText('Verified !');
