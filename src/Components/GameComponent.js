@@ -6,9 +6,9 @@ import { doc, updateDoc } from 'firebase/firestore';
 const GameComponent = ({onUpdateState, pos}) => {
  
   const [number, setNumber] = useState(1);
-
-  document.getElementById('verifyButton').removeAttribute("disabled");
-  document.getElementById("verifyButton").innerHTML="Verify";
+  const [verifyDisabled, setVerifyDisabled] = useState(true);
+  const [diceDisabled, setDiceDisabled] = useState(false);
+  const [verifyButtonText, setVerifyButtonText] = useState('Verified');
 
   const play = () => {
     setNumber(2);
@@ -21,9 +21,9 @@ const GameComponent = ({onUpdateState, pos}) => {
   const unlockButton = () =>{
     var inpCode = prompt("Enter Volunteer Only Code : ")
      if (inpCode === "SBVgame2023"){
-       document.getElementById('dice').removeAttribute("disabled");
-       document.getElementById("verifyButton").innerHTML="Verified !";
-       document.getElementById('verifyButton').setAttribute("disabled","disabled");
+      setDiceDisabled(false);
+      setVerifyButtonText('Verified !');
+      setVerifyDisabled(true);
      }
      else{
        alert("Wrong Code! If you are a team member attempting to unlock this, it will result in your team's disqualification next time")
@@ -47,7 +47,9 @@ const GameComponent = ({onUpdateState, pos}) => {
         setNumber(updatedNumber);
         onUpdateState(updatedNumber);
         document.getElementById('dice').innerHTML = diceValues[diceRoll];
-        document.getElementById('dice').setAttribute("disabled","disabled");
+        setDiceDisabled(true);
+        setVerifyDisabled(false);
+        setVerifyButtonText("Verify");
       }
     } catch (error) {
       console.error('Error updating position:', error);
@@ -173,9 +175,9 @@ return (
             border-radius: 10%;
             background-color: white;
           }
-          #dice:disabled{
-            background-color:#c1bbbb;
-          }
+           #dice:disabled{
+              background-color:#c1bbbb;
+            }
         `}
         </style>
         <div>
@@ -185,7 +187,7 @@ return (
       <center>
         <br />
        <div id="diceholder">
-       <button id="dice" onClick={random}>
+       <button id="dice" onClick={random} disabled={diceDisabled}>
           <h4>Press Here</h4>
         </button>
        </div>
@@ -194,7 +196,7 @@ return (
         <br/>
         <br/>
       
-<button id='verifyButton' onClick={unlockButton} style={{padding:"2.5% 4%", border:"none", height:"auto", width:"auto", borderRadius:"10px", textAlign:"center", fontSize:"1rem"}}>Verify</button>
+<button id='verifyButton' disabled={verifyDisabled} onClick={unlockButton} style={{padding:"2.5% 4%", border:"none", height:"auto", width:"auto", borderRadius:"10px", textAlign:"center", fontSize:"1rem"}}>{verifyButtonText}</button>
 <br/>
         <br/>
         <br/>
