@@ -6,7 +6,10 @@ import { doc, updateDoc } from 'firebase/firestore';
 const GameComponent = ({onUpdateState, pos}) => {
  
   const [number, setNumber] = useState(1);
-  
+
+  document.getElementById('verifyButton').removeAttribute("disabled");
+  document.getElementById("verifyButton").innerHTML="Verify";
+
   const play = () => {
     setNumber(2);
   };
@@ -15,15 +18,24 @@ const GameComponent = ({onUpdateState, pos}) => {
   }, [pos]);
 
 
+  const unlockButton = () =>{
+    var inpCode = prompt("Enter Volunteer Only Code : ")
+     if (inpCode === "SBVgame2023"){
+       document.getElementById('dice').removeAttribute("disabled");
+       document.getElementById("verifyButton").innerHTML="Verified !";
+       document.getElementById('verifyButton').setAttribute("disabled","disabled");
+     }
+     else{
+       alert("Wrong Code! If you are a team member attempting to unlock this, it will result in your team's disqualification next time")
+     }
+   }
+
   const random = async () => {
     const diceValues = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
     const diceRoll = Math.ceil(Math.random() * 6);
 
     const newNumber = number + diceRoll <= 80 ? number + diceRoll : number;
-    console.log("===========");
-    console.log("Dice  : " + diceRoll);
-    console.log("Current Number : " + number);
-    console.log("New Number : " + newNumber);
+
 
     try {
       const user = auth.currentUser;
@@ -35,11 +47,7 @@ const GameComponent = ({onUpdateState, pos}) => {
         setNumber(updatedNumber);
         onUpdateState(updatedNumber);
         document.getElementById('dice').innerHTML = diceValues[diceRoll];
-
-        console.log("nDice  : " + diceRoll);
-        console.log("nCurrent Number : " + number);
-        console.log("nNumber : " + updatedNumber);
-        console.log("===========");
+        document.getElementById('dice').setAttribute("disabled","disabled");
       }
     } catch (error) {
       console.error('Error updating position:', error);
@@ -165,6 +173,9 @@ return (
             border-radius: 10%;
             background-color: white;
           }
+          #dice:disabled{
+            background-color:#c1bbbb;
+          }
         `}
         </style>
         <div>
@@ -180,6 +191,12 @@ return (
        </div>
       </center>
     </div>
+        <br/>
+        <br/>
+      
+<button id='verifyButton' onClick={unlockButton} style={{padding:"2.5% 4%", border:"none", height:"auto", width:"auto", borderRadius:"10px", textAlign:"center", fontSize:"1rem"}}>Verify</button>
+<br/>
+        <br/>
         <br/>
         <br/>
         <div style={{ color: 'white', textAlign: 'center', fontSize:"1.5rem" }}>
@@ -198,6 +215,7 @@ return (
   </div>
 </div>
 </div>
+
 <br/>
 <center><h5>Made by Tech Team - iOS Club !</h5></center>
 <br/>
