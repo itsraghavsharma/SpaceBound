@@ -10,7 +10,7 @@ function Team({ teammates, id }) {
       <div className="card mx-auto" style={{ width: '18rem', alignItems: 'center', justifyContent: 'center' }}>
         <div className="card-body">
         <h5 className="card-title">Team ID: {id}</h5>
-          <p className="card-text"><span id="taskMessage">{teammates}</span></p>
+          <p className="card-text"><span id="taskMessage"  dangerouslySetInnerHTML={{__html:teammates.toString().replaceAll(",","<br/>")}}></span></p>
         </div>
       </div>
       <br></br>

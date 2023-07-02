@@ -160,8 +160,8 @@ return (
             margin: 2px 0px 3px 0px;
           }
           #dice {
-            height: 80px;
-            width: 80px;
+            height: 70px;
+            width: 70px;
             font-size: 70px;
             display: flex;
             color: #0B5ED7;
