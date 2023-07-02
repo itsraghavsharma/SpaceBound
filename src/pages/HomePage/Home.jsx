@@ -10,6 +10,7 @@ import Team from '../../Components/team';
 import { taskDataConverter } from '../../models/TasksModel';
 import { teamDataConverter } from '../../models/UserModel';
 import { useNavigate } from 'react-router-dom';
+import Body from '../../Components/GameComponent';
 
 
 function Home() {
@@ -22,7 +23,7 @@ function Home() {
 
   const updateGamePosition = (newState) => {
     setGamePosition(newState);
-    
+    console.log("Game State Updated");
   };
 
   useEffect(() => {
@@ -77,10 +78,12 @@ function Home() {
                   const formattedDate = new Date(timestamp).toLocaleString();
                   
                   console.log("Date is " + formattedDate);
-                  const data = {};
-                  data[gamePosition] = formattedDate;
+                  const data = new Map();
+                  data.set(gamePosition, formattedDate);
+                  data.set("isVerified", false); // Add the "isVerified" field
                   
-                  await updateDoc(userDocRef, data);
+                  await updateDoc(userDocRef, Object.fromEntries(data));
+                  
 
                   console.log('Position updated in Firestore');
                 }
@@ -105,13 +108,28 @@ function Home() {
     fetchMessage();
   }, [gamePosition]);
 
+  const divStyle = {
+    backgroundImage: 'url("./images/bg.jpg")',
+    backgroundRepeat: 'no-repeat',
+    position: 'relative',
+  };
+
   return (
-    <div>
+    <div style={divStyle}>
       <Navbar name={teamData?.teamName ?? ""} />
+      <button
+          type="button"
+          className="btn btn"
+          style={{marginTop: '70px',alignItems:"center", width: '50vw', height: 'auto', margin:0, borderRadius: "25px", fontWeight: 'bold', color:"#0B5ED7", backgroundColor:"white" }}
+        >
+          <a className="navbar-brand" href="#" style={{ color: "#0B5ED7", fontWeight: 'bold',fontSize: '2rem'  }}>
+            ऐlaan
+          </a>
+        </button>
       <Information message={message} />
       {((pos!=0 || pos != null)) ?
       <GameComponent onUpdateState={updateGamePosition} pos={pos} /> : null}
-      <Directions />
+     
       <Team teammates={teamData?.teamMembers ?? ""} id={teamData?.teamId} />
     </div>
   );

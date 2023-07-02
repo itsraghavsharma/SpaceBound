@@ -2,19 +2,17 @@ import React from 'react';
 
 function Information({ message }) {
   return (
-    <div style={{ textAlign: 'center', color: 'white', background: 'rgb(8 3 33 )' }}>
-      <br />
-      <h2 style={{fontSize: "2.3rem"}}>ऐlaan</h2>
-      <br></br>
-      <h2>Message Box</h2>
-      <div className="card mx-auto" style={{ width: '18rem', alignItems: 'center', justifyContent: 'center' }}>
-        <div className="card-body">
-          <h5 className="card-title">Message:</h5>
-          <p className="card-text"><span id="taskMessage">{message}</span></p>
+    <div
+          className="card mx-auto"
+          style={{ marginTop: '30px',width: '90vw', alignItems: 'center', justifyContent: 'center', borderRadius:"10px", borderColor:"white" ,  backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(5px)',}}
+        >
+          <div className="card-body">
+            <h2 className="card-title" style={{color:"white"}}>Message Box</h2>
+            <p className="card-text">
+              <span id="taskMessage" style={{color:"white", fontSize:"1.3rem"}}>{message}</span>
+            </p>
+          </div>
         </div>
-      </div>
-      <br></br>
-    </div>
   );
 }
 
