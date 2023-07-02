@@ -92,7 +92,19 @@ const GameComponent = ({onUpdateState, pos}) => {
       );
     }
     if (number >= 80){
-      document.getElementById("diceholder").innerHTML = "<h1 style='color:white'>You Won</h1>"
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const userDocRef = doc(db, 'users', user.email);
+          updateDoc(userDocRef, { startQu: true });
+          document.getElementById("diceholder").innerHTML = "<h1 style='color:white'>You Won</h1>"
+   
+        }
+      } catch (error) {
+        alert("Some error occured, pls try again. If issue persists, pls contact helpdesk")
+      }
+      
+      
     }
     return boardBoxes;
   };
