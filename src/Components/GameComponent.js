@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
+import { decryptString, volPass } from './values';
 
 
 const GameComponent = ({onUpdateState, pos}) => {
@@ -20,7 +21,7 @@ const GameComponent = ({onUpdateState, pos}) => {
 
   const unlockButton = () =>{
     var inpCode = prompt("Enter Volunteer Only Code : ")
-     if (inpCode === "SBVgame2023"){
+     if (inpCode === decryptString(volPass)){
       setDiceDisabled(false);
       setVerifyButtonText('Verified !');
       setVerifyDisabled(true);
