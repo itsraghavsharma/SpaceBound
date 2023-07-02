@@ -1,15 +1,16 @@
 export class TeamData {
-    constructor({ name, email, teamName, teamId, teamMembers, currentPosition }) {
+    constructor({ name, email, teamName, teamId, teamMembers, currentPosition, startQu }) {
       this.name = name ?? "NA";
       this.email = email ?? "NA";
       this.teamName = teamName ?? "NA";
       this.teamId = teamId ?? "NA";
       this.teamMembers = teamMembers ?? [];
       this.currentPosition = currentPosition ?? 1;
+      this.startQu = startQu ?? false;
     }
   
     toString() {
-      return `${this.name}, ${this.email}, ${this.teamName}, ${this.teamId}, ${this.teamMembers}, ${this.currentPosition}`;
+      return `${this.name}, ${this.email}, ${this.teamName}, ${this.teamId}, ${this.teamMembers}, ${this.currentPosition}, ${this.startQu}`;
     }
   }
   
@@ -23,6 +24,7 @@ export class TeamData {
         teamId: teamData.teamId ?? "NA",
         teamMembers: teamData.teamMembers ?? [],
         currentPosition: teamData.currentPosition ?? 1,
+        startQu : teamData.startQu ?? false,
       };
     },
     fromFirestore: (snapshot, options) => {
@@ -34,6 +36,7 @@ export class TeamData {
         teamId: data.teamId ?? "NA",
         teamMembers: data.teamMembers ?? [],
         currentPosition: data.currentPosition ?? 1,
+        startQu : data.startQu ?? false,
       });
       return team;
     },

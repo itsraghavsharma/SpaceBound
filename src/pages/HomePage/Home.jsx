@@ -35,7 +35,10 @@ function Home() {
 
       
       if (docSnap.exists) {
-      
+        if(docSnap.data().startQu != true){
+          navigate('/start')
+          return
+        }
         setTeamData(docSnap.data());
         setGamePosition(docSnap.data().currentPosition);
         setPos(parseInt(docSnap.data().currentPosition));
@@ -44,7 +47,8 @@ function Home() {
       }
       else
       {
-        navigate('/login');
+        
+        navigate('/');
       }
     };
 

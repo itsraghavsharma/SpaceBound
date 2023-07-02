@@ -7,6 +7,7 @@ import Directions from './Components/Directions';
 import Login from "./pages/Login/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from './pages/HomePage/Home';
+import Passwords from './pages/Password/passwords';
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
 
     <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/game" element={<Home />} />
+          <Route path="/start" element={<Passwords />} />
           {/* <Route path='*' element={<NotFound/>}></Route> */}
         </Routes>
       </BrowserRouter>   

@@ -64,10 +64,19 @@ function Login() {
         if (!docSnap.exists()) {
           alert("Please use team leader's email to login")
         }
-        else{
 
-          navigate('/')
-          
+        else{
+          console.log(docSnap.data().startQu);
+          if(docSnap.data().startQu == true)
+          {
+            navigate('/game')
+          }
+          else
+          {
+            
+            navigate('/start')
+          }
+ 
         }
 
       }).catch((error) => {
