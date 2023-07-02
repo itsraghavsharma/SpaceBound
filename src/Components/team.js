@@ -3,7 +3,7 @@ import React from 'react';
 function Team({ teammates, id }) {
     // const teammatesString = teammates.join(', ');
   return (
-    <div style={{ textAlign: 'center', color: 'white', background: 'rgb(8 3 33 )' }}>
+    <div style={{ textAlign: 'center', color: 'white' }}>
 
       <br></br>
       <h2>Teammates</h2>

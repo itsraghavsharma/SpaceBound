@@ -121,6 +121,7 @@ function Home() {
   return (
     <div style={divStyle}>
       <Navbar name={teamData?.teamName ?? ""} />
+      <br />
       <button
           type="button"
           className="btn btn"
@@ -133,7 +134,6 @@ function Home() {
       <Information message={message} />
       {((pos!=0 || pos != null)) ?
       <GameComponent onUpdateState={updateGamePosition} pos={pos} /> : null}
-     
       <Team teammates={teamData?.teamMembers ?? ""} id={teamData?.teamId} />
     </div>
   );

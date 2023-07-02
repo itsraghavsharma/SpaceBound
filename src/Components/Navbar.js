@@ -4,7 +4,7 @@ function Navbar({ name }) {
   const navbarStyle = {
    
     width: '100vw',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)', // Adjust the transparency here (0.8 represents 80% opacity)
+    backgroundColor: 'rgb(19 27 77 / 0.9 )', // Adjust the transparency here (0.8 represents 80% opacity)
     backdropFilter: 'blur(10px)', // Add a blur effect
   };
   return (

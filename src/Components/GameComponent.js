@@ -82,7 +82,7 @@ const GameComponent = ({onUpdateState, pos}) => {
       const classNames = `boardbox ${subclass}`;
       const imgSrc =
         i === number + 2
-          ? 'https://img.icons8.com/ultraviolet/40/pawn.png'
+          ? 'https://img.icons8.com/emoji/48/rocket-emji.png'
           : '';
 
       boardBoxes.push(
@@ -91,6 +91,7 @@ const GameComponent = ({onUpdateState, pos}) => {
         </div>
       );
     }
+    console.log(number);
     if (number >= 80){
       document.getElementById("diceholder").innerHTML = "<h1 style='color:white'>You Won</h1>"
     }
@@ -105,10 +106,6 @@ return (
       
       <div style={{ textAlign: 'center', color: 'white' }}>
         <br />
-        
-        <br />
-        <br />
-        
         <br />
       </div>
       <div style={{ textAlign: 'center' }}>
@@ -198,33 +195,6 @@ return (
       
 <button id='verifyButton' disabled={verifyDisabled} onClick={unlockButton} style={{padding:"2.5% 4%", border:"none", height:"auto", width:"auto", borderRadius:"10px", textAlign:"center", fontSize:"1rem"}}>{verifyButtonText}</button>
 <br/>
-        <br/>
-        <br/>
-        <br/>
-        <div style={{ color: 'white', textAlign: 'center', fontSize:"1.5rem" }}>
-          <h2>Directions</h2>
-          <br/>
-
-<div style={{ display: 'flex', justifyContent: 'center' }}>
-<div className="card" style={{ width: '4.5rem', margin: '0 5px', borderRadius: '50%' , backgroundColor:"#0B5ED7", color:"white"}}>
-  <div className="card-body">
-    <h3 className="card-title"  style={{ fontWeight: 'bold'}}>&uarr;</h3>
-  </div>
-</div><br/>&nbsp;&nbsp;&nbsp;
-<div className="card" style={{ width: '4.5rem', margin: '0 0 0 -5px', borderRadius: '50%',  backgroundColor:"#0B5ED7", color:"white" }}>
-  <div className="card-body">
-    <h3 className="card-title" style={{ fontWeight: 'bold'}}>&darr;</h3>
-  </div>
-</div>
-</div>
-
-<br/>
-<center><h5>Made by Tech Team - iOS Club !</h5></center>
-<br/>
-<br/>
-<br/>
-
-        </div>
       </div>
     </div>
   </div>
