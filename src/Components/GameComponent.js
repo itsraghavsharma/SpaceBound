@@ -35,7 +35,7 @@ const GameComponent = ({onUpdateState, pos}) => {
     const diceValues = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
     const diceRoll = Math.ceil(Math.random() * 6);
 
-    const newNumber = number + diceRoll <= 80 ? number + diceRoll : number;
+    const newNumber = number + diceRoll <= 78 ? number + diceRoll : number;
 
 
     try {
@@ -93,7 +93,7 @@ const GameComponent = ({onUpdateState, pos}) => {
       );
     }
     console.log(number);
-    if (number >= 80){
+    if (number >= 78){
       document.getElementById("diceholder").innerHTML = "<h1 style='color:white'>You Won</h1>"
     }
     return boardBoxes;
