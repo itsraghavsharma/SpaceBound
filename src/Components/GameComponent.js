@@ -9,8 +9,8 @@ const GameComponent = ({onUpdateState, pos}) => {
  
   const [number, setNumber] = useState(1);
   const [verifyDisabled, setVerifyDisabled] = useState(false);
-  const [diceDisabled, setDiceDisabled] = useState(true);
-  const [verifyButtonText, setVerifyButtonText] = useState('Verify');
+  const [diceDisabled, setDiceDisabled] = useState(false);
+  const [verifyButtonText, setVerifyButtonText] = useState('Verified');
 
   const play = () => {
     setNumber(2);
@@ -20,17 +20,7 @@ const GameComponent = ({onUpdateState, pos}) => {
   }, [pos]);
 
 
-
-
   const unlockButton = async () => {
-
-    if(number == 0)
-    {
-      setDiceDisabled(false);
-      setVerifyDisabled(true)
-      setVerifyButtonText("Verified")
-      return;
-    }
 
     const docRef = doc(db, "users", auth.currentUser.email).withConverter(teamDataConverter);
     const docSnap = await getDoc(docRef);
