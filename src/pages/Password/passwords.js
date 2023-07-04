@@ -1,24 +1,24 @@
 import React from "react";
 import "./passwords.css";
+import "../../Components/values.js"
 import {  useNavigate } from "react-router-dom";
 import { auth, db } from '../../services/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
+import { decryptString } from "../../Components/values.js";
 
 function Passwords() {
 
   const navigate = useNavigate();
   async function validateAnswers () {
-
     var form = document.forms["AnswerForm"];
-    var ans  = ["sun", "saturn", 'supernova', 'solar eclipse', "galaxy", "ursa major", "comet" , "nebula" ];
+    var ans  = ['U2FsdGVkX1/kYcmGUjDl+hkdrzx7drHOjXNbY635/E8=', 'U2FsdGVkX18rqK7KpcidsAsrhL6b5zqmRZlgGVD2vCc=', 'U2FsdGVkX1+xcLa6ONzebdQvYs6DXBFL8LhjE/c44W4=', 'U2FsdGVkX1/b7pRaI54xNOAg2lhVnzok7pKbkdwKVAI=', 'U2FsdGVkX19WO/OjaWO9en3sWZZoVyO37lmwO5wttmA=', 'U2FsdGVkX18uAF4lTebSeoROBPDRQIhZNK58iMLzEgM=', 'U2FsdGVkX18eFgAeFnaIgHcSPGaW5X2c89dvwJ/eOiQ=', 'U2FsdGVkX18jJThihb2IyqAd7bXaQJ1I4M4tlmSMZiw='];
     for (let index = 0; index <8; ++index) {
-      console.log(form[index.toString()].value.toString().toLowerCase().trim());
-      if (form[index.toString()].value.toString().toLowerCase().trim() === ans[index]){
-        console.log("passed "+index);
+      console.log(index);
+      if (form[index.toString()].value.toString().toLowerCase().trim() === decryptString(ans[index])){
       }
       else{
-        console.log("leaving "+index);
-        return
+        alert("Some of the answers entered are wrong. Check answers and try again");
+        return;
       }
     }
 
@@ -41,11 +41,11 @@ function Passwords() {
     <img
       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTydMJTLALd6Fysk6FEo4cNQe84_TZHlKLO4wiX7X0glz57eZx0V8RFpf9IDcYXgz63ryc&usqp=CAU"
       alt="Background"
-    />
+    /><br/>
     <div className="container" style={{ textAlign: "center",margin: "100px auto" }}>
       <form style={{ borderRadius: "20px", maxWidth: "600px", margin: "100px auto" }} action="javascript:void (0);" name="AnswerForm">
         {/* <h1>Hello PLAYERNAME</h1> */}
-        <h3>Please Enter all the answers here:</h3>
+        <h5 style={{fontSize:"1.1rem", fontWeight:700}}>Given Below Are The Starting Lines From Each Riddle, Enter The Answer Of Riddles Accordingly </h5>
         <div className="ui divider"></div>
         <div className="ui form">
           <div className="field">
@@ -197,13 +197,14 @@ required
           onClick={validateAnswers}
             className="fluid ui button blue"
             style={{
-              borderRadius: "20px",
+              borderRadius: "10px",
               height: "auto",
               width: "120px",
-              margin: "20px auto",
-              padding:"1%",
+              margin: "12.5px auto",
+              padding:"2%",
               fontSize:"larger",
               display: "block",
+              border:"none"
             }}
           >
             Submit
@@ -212,6 +213,7 @@ required
       </form>
     </div>
     </div>
+    
   );
 }
 
