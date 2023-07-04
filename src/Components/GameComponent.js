@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase';
-import { doc, updateDoc, addDoc, getDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { decryptString, volPass } from './values';
-import { teamDataConverter } from '../models/UserModel';
 
 
 const GameComponent = ({onUpdateState, pos}) => {
  
   const [number, setNumber] = useState(1);
-  const [verifyDisabled, setVerifyDisabled] = useState(false);
+  const [verifyDisabled, setVerifyDisabled] = useState(true);
   const [diceDisabled, setDiceDisabled] = useState(false);
   const [verifyButtonText, setVerifyButtonText] = useState('Verified');
 
@@ -20,37 +19,17 @@ const GameComponent = ({onUpdateState, pos}) => {
   }, [pos]);
 
 
-  const unlockButton = async () => {
-
-    const docRef = doc(db, "users", auth.currentUser.email).withConverter(teamDataConverter);
-    const docSnap = await getDoc(docRef);
-
-   
-
-    const timestamp = docSnap.data().upTime; 
-    const timestampDate = timestamp.toDate();
-    const currentTime = new Date().getTime();
-
-    console.log(timestamp);
-    console.log(currentTime);
-
-    if (currentTime > timestampDate.getTime()) {
-      var inpCode = document.getElementById('passwordInput').value;
-      if (inpCode === "6969") {
-        setDiceDisabled(false);
-        setVerifyButtonText('Verified!');
-        setVerifyDisabled(true);
-        
-      document.getElementById('passwordInput').value = "";
-document.getElementById("verifyArea").style.display = "none";
-      } else {
-        alert("Wrong Code! If you are a team member attempting to unlock this, it will result in your team's disqualification next time");
-      }
-    } else {
-    
-      alert("The time has not yet passed!");
-    }
-  };
+  const unlockButton = () =>{
+    var inpCode = prompt("Enter Volunteer Only Code : ")
+     if (inpCode === "6969"){
+      setDiceDisabled(false);
+      setVerifyButtonText('Verified !');
+      setVerifyDisabled(true);
+     }
+     else{
+       alert("Wrong Code! If you are a team member attempting to unlock this, it will result in your team's disqualification next time")
+     }
+   }
 
   const random = async () => {
     const diceValues = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
@@ -77,10 +56,7 @@ document.getElementById("verifyArea").style.display = "none";
       console.error('Error updating position:', error);
     }
   };
-  const displayArea = ()=>{
-document.getElementById("verifyArea").style.display = "block";
-  }
-
+  
   const renderBoardBoxes = () => {
     const boardBoxes = [];
 
@@ -116,6 +92,7 @@ document.getElementById("verifyArea").style.display = "block";
         </div>
       );
     }
+    console.log(number);
     if (number >= 78){
       document.getElementById("diceholder").innerHTML = "<h1 style='color:white'>You Won</h1>"
     }
@@ -217,15 +194,7 @@ return (
         <br/>
         <br/>
       
-<button id='verifyButton' disabled={verifyDisabled} onClick={displayArea} style={{padding:"2.5% 4%", border:"none", height:"auto", width:"auto", borderRadius:"10px", textAlign:"center", fontSize:"1rem"}}>{verifyButtonText}</button>
-<br/>
-<br/>
-<div id="verifyArea" style={{display:"none"}}>
-  
-<input id="passwordInput" style={{width:'auto', height:"auto", border:"none"}} autoComplete='off' type='password' placeholder='Volunteer Only Code'></input><br/>
-<button id='verifyButton' onClick={unlockButton} style={{padding:"2.5% 4%", border:"none", height:"auto", width:"auto", borderRadius:"10px", textAlign:"center", fontSize:"1rem"}}>Submit</button>
-
-</div>
+<button id='verifyButton' disabled={verifyDisabled} onClick={unlockButton} style={{padding:"2.5% 4%", border:"none", height:"auto", width:"auto", borderRadius:"10px", textAlign:"center", fontSize:"1rem"}}>{verifyButtonText}</button>
 <br/>
       </div>
     </div>
