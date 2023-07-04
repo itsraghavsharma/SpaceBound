@@ -55,6 +55,40 @@ function Home() {
     updateData();
   }, []);
 
+  async function showPrompt(docSnap, email) {
+
+    const userDocRef = doc(db, 'users', email);
+    const newPos = parseInt(gamePosition) + docSnap.data().position;
+    setGamePosition(newPos);
+    setPos(newPos);
+
+    var password = "6969"; 
+  
+    var inputPassword = prompt(
+      "You are shifted " + docSnap.data().position + " steps to " + newPos +
+      "\n\nMessage :" + docSnap.data().message +
+      "\nEnter Volunteer Only Code : "
+    );
+  
+    if (inputPassword === password) {
+      await updateDoc(userDocRef, { currentPosition: newPos });
+      const timestamp = Date.now();
+      const formattedDate = new Date(timestamp).toLocaleString();
+      
+      console.log("Date is " + formattedDate);
+      const data = new Map();
+      data.set(gamePosition, formattedDate);
+      data.set("isVerified", false); // Add the "isVerified" field
+      
+      await updateDoc(userDocRef, Object.fromEntries(data));
+      
+
+      console.log('Position updated in Firestore');
+    } else {
+      showPrompt(docSnap, email); // Show the prompt again if the password is incorrect
+    }
+  }
+
   useEffect(() => {
     const fetchMessage = async () => {
       try {
@@ -72,24 +106,13 @@ function Home() {
               try {
                 const user = auth.currentUser;
                 if (user) {
-                  const userDocRef = doc(db, 'users', user.email);
-                  const newPos = parseInt(gamePosition) + docSnap.data().position;
-                  setGamePosition(newPos);
-                  setPos(newPos);
-                  alert("You are shifted " + docSnap.data().position + " steps to " + newPos + "\n\nMessage :" + docSnap.data().message);
-                  await updateDoc(userDocRef, { currentPosition: newPos });
-                  const timestamp = Date.now();
-                  const formattedDate = new Date(timestamp).toLocaleString();
-                  
-                  console.log("Date is " + formattedDate);
-                  const data = new Map();
-                  data.set(gamePosition, formattedDate);
-                  data.set("isVerified", false); // Add the "isVerified" field
-                  
-                  await updateDoc(userDocRef, Object.fromEntries(data));
-                  
+                 
+                  // var inpCode = prompt("You are shifted " + docSnap.data().position + " steps to " + newPos + "\n\nMessage :" + docSnap.data().message + "\nEnter Volunteer Only Code : ")
 
-                  console.log('Position updated in Firestore');
+                  showPrompt(docSnap, user.email);
+
+                  // alert("You are shifted " + docSnap.data().position + " steps to " + newPos + "\n\nMessage :" + docSnap.data().message);
+             
                 }
               
               

@@ -21,7 +21,7 @@ const GameComponent = ({onUpdateState, pos}) => {
 
   const unlockButton = () =>{
     var inpCode = prompt("Enter Volunteer Only Code : ")
-     if (inpCode === decryptString(volPass)){
+     if (inpCode === "6969"){
       setDiceDisabled(false);
       setVerifyButtonText('Verified !');
       setVerifyDisabled(true);
