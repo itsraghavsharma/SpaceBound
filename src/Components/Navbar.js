@@ -4,7 +4,7 @@ function Navbar({ name }) {
   const navbarStyle = {
    
     width: '100vw',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)', // Adjust the transparency here (0.8 represents 80% opacity)
+    backgroundColor: 'rgb(19 27 77 / 0.9 )', // Adjust the transparency here (0.8 represents 80% opacity)
     backdropFilter: 'blur(10px)', // Add a blur effect
   };
   return (
@@ -17,11 +17,11 @@ function Navbar({ name }) {
         <button
           type="button"
           className="btn btn-primary"
-          style={{ width: '300px', height: '50px', marginTop: "2px", borderRadius: "50px", fontWeight: 'bold' }}
+          style={{ width: '300px', fontWeight:"600", height: 'auto',lineHeight:"1.25" ,paddingTop:"0px auto 0px auto", marginTop: "2px", marginRight:"15px", border:"none", background:"none"}}
         >
-          Player Name: <span id="playerName"> {name} </span>
+          Player Name: <span id="playerName"  style={{ fontWeight:"400",}}>{name}</span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav"></div>
+        <div className="collapse navbar-collapse" id="navbarNav"> </div>
         
       </nav>
       
