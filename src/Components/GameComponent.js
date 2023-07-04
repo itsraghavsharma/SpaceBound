@@ -35,11 +35,14 @@ const GameComponent = ({onUpdateState, pos}) => {
     console.log(currentTime);
 
     if (currentTime > timestampDate.getTime()) {
-      var inpCode = prompt("Enter Volunteer Only Code: ");
+      var inpCode = document.getElementById('passwordInput').value;
       if (inpCode === "6969") {
         setDiceDisabled(false);
         setVerifyButtonText('Verified!');
         setVerifyDisabled(true);
+        
+      document.getElementById('passwordInput').value = "";
+document.getElementById("verifyArea").style.display = "none";
       } else {
         alert("Wrong Code! If you are a team member attempting to unlock this, it will result in your team's disqualification next time");
       }
@@ -74,7 +77,10 @@ const GameComponent = ({onUpdateState, pos}) => {
       console.error('Error updating position:', error);
     }
   };
-  
+  const displayArea = ()=>{
+document.getElementById("verifyArea").style.display = "block";
+  }
+
   const renderBoardBoxes = () => {
     const boardBoxes = [];
 
@@ -110,7 +116,6 @@ const GameComponent = ({onUpdateState, pos}) => {
         </div>
       );
     }
-    console.log(number);
     if (number >= 78){
       document.getElementById("diceholder").innerHTML = "<h1 style='color:white'>You Won</h1>"
     }
@@ -212,7 +217,15 @@ return (
         <br/>
         <br/>
       
-<button id='verifyButton' disabled={verifyDisabled} onClick={unlockButton} style={{padding:"2.5% 4%", border:"none", height:"auto", width:"auto", borderRadius:"10px", textAlign:"center", fontSize:"1rem"}}>{verifyButtonText}</button>
+<button id='verifyButton' disabled={verifyDisabled} onClick={displayArea} style={{padding:"2.5% 4%", border:"none", height:"auto", width:"auto", borderRadius:"10px", textAlign:"center", fontSize:"1rem"}}>{verifyButtonText}</button>
+<br/>
+<br/>
+<div id="verifyArea" style={{display:"none"}}>
+  
+<input id="passwordInput" style={{width:'auto', height:"auto", border:"none"}} autoComplete='off' type='password' placeholder='Volunteer Only Code'></input><br/>
+<button id='verifyButton' onClick={unlockButton} style={{padding:"2.5% 4%", border:"none", height:"auto", width:"auto", borderRadius:"10px", textAlign:"center", fontSize:"1rem"}}>Submit</button>
+
+</div>
 <br/>
       </div>
     </div>
