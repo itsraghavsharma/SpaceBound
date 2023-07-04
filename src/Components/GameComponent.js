@@ -20,7 +20,7 @@ const GameComponent = ({onUpdateState, pos}) => {
 
   const unlockButton = () =>{
     var inpCode = prompt("Enter Volunteer Only Code : ", "")
-     if (inpCode === "SBVgame2023"){
+     if (inpCode === "6969"){
       setDiceDisabled(false);
       setVerifyButtonText('Verified !');
       setVerifyDisabled(true);
@@ -34,7 +34,7 @@ const GameComponent = ({onUpdateState, pos}) => {
     const diceValues = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
     const diceRoll = Math.ceil(Math.random() * 6);
 
-    const newNumber = number + diceRoll <= 80 ? number + diceRoll : number;
+    const newNumber = number + diceRoll <= 78 ? number + diceRoll : number;
 
 
     try {
@@ -91,7 +91,7 @@ const GameComponent = ({onUpdateState, pos}) => {
         </div>
       );
     }
-    if (number >= 80){
+    if (number >= 78){
       try {
         const user = auth.currentUser;
         if (user) {
