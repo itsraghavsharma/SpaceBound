@@ -108,11 +108,35 @@ function Home() {
                 if (user) {
                  
                   // var inpCode = prompt("You are shifted " + docSnap.data().position + " steps to " + newPos + "\n\nMessage :" + docSnap.data().message + "\nEnter Volunteer Only Code : ")
+                  if(docSnap.data().nDirect == 1)
+                  {
+                    showPrompt(docSnap, user.email);
+                  }
+                  else{
+                    const userDocRef = doc(db, 'users', user.email);
+                    const newPos = parseInt(gamePosition) + docSnap.data().position;
 
-                  showPrompt(docSnap, user.email);
-
-                  // alert("You are shifted " + docSnap.data().position + " steps to " + newPos + "\n\nMessage :" + docSnap.data().message);
+                    await updateDoc(userDocRef, { currentPosition: newPos });
+                    const timestamp = Date.now();
+                    const formattedDate = new Date(timestamp).toLocaleString();
+                    
+                    alert("You are shifted " + docSnap.data().position + " steps to " + newPos + "\n\nMessage :" + docSnap.data().message);
              
+
+                    console.log("Date is " + formattedDate);
+                    const data = new Map();
+                    data.set(gamePosition, formattedDate);
+                    data.set("isVerified", false); // Add the "isVerified" field
+                    
+                    await updateDoc(userDocRef, Object.fromEntries(data));
+                    
+              
+                    console.log('Position updated in Firestore');
+                    setGamePosition(newPos);
+                    setPos(newPos);
+                  }
+    
+                  
                 }
               
               
