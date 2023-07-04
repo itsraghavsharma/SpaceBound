@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, addDoc, getDoc } from 'firebase/firestore';
 import { decryptString, volPass } from './values';
+import { teamDataConverter } from '../models/UserModel';
 
 
 const GameComponent = ({onUpdateState, pos}) => {
  
   const [number, setNumber] = useState(1);
-  const [verifyDisabled, setVerifyDisabled] = useState(true);
+  const [verifyDisabled, setVerifyDisabled] = useState(false);
   const [diceDisabled, setDiceDisabled] = useState(false);
   const [verifyButtonText, setVerifyButtonText] = useState('Verified');
 
@@ -19,17 +20,34 @@ const GameComponent = ({onUpdateState, pos}) => {
   }, [pos]);
 
 
-  const unlockButton = () =>{
-    var inpCode = prompt("Enter Volunteer Only Code : ")
-     if (inpCode === "6969"){
-      setDiceDisabled(false);
-      setVerifyButtonText('Verified !');
-      setVerifyDisabled(true);
-     }
-     else{
-       alert("Wrong Code! If you are a team member attempting to unlock this, it will result in your team's disqualification next time")
-     }
-   }
+  const unlockButton = async () => {
+
+    const docRef = doc(db, "users", auth.currentUser.email).withConverter(teamDataConverter);
+    const docSnap = await getDoc(docRef);
+
+   
+
+    const timestamp = docSnap.data().upTime; 
+    const timestampDate = timestamp.toDate();
+    const currentTime = new Date().getTime();
+
+    console.log(timestamp);
+    console.log(currentTime);
+
+    if (currentTime > timestampDate.getTime()) {
+      var inpCode = prompt("Enter Volunteer Only Code: ");
+      if (inpCode === "6969") {
+        setDiceDisabled(false);
+        setVerifyButtonText('Verified!');
+        setVerifyDisabled(true);
+      } else {
+        alert("Wrong Code! If you are a team member attempting to unlock this, it will result in your team's disqualification next time");
+      }
+    } else {
+    
+      alert("The time has not yet passed!");
+    }
+  };
 
   const random = async () => {
     const diceValues = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];

@@ -101,6 +101,32 @@ function Home() {
             setCurrentTask(docSnap.data());
             console.log(docSnap.data());
             setMessage(docSnap.data().message);
+            if(docSnap.data().time != 0)
+            {
+              const currentTime = new Date();
+              const timeInSeconds = docSnap.data().time;
+              const timeInMilliseconds = timeInSeconds * 1000;
+              const updatedTime = new Date(currentTime.getTime() + timeInMilliseconds);
+            
+              try {
+                const user = auth.currentUser;
+                if (user) {
+                
+                    const userDocRef = doc(db, 'users', user.email);
+
+                    await updateDoc(userDocRef, { upTime: updatedTime });
+
+                    console.log('time updated in Firestore');
+
+                }
+              
+              
+                } catch (error) {
+                console.error('Error updating position:', error);
+              }
+              
+            }
+
             if(docSnap.data().position != 0)
             {
               try {
